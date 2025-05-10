@@ -1,0 +1,15 @@
+{
+  "name": "ecommerce-backend",
+  "version": "1.0.0",
+  "description": "this is an e commmerce website",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "anil koundinya",
+  "license": "ISC",
+  "dependencies": {
+    "ecommerce-backend": "file:",
+    "express": "^5.1.0"
+  }
+}
