@@ -1,29 +1,16 @@
 const jwt = require('jsonwebtoken');
 
-
-
- // Error handling middleware (for centralized error responses)
-// function errorHandler(err, req, res, next) {
-//   console.error(err.stack);
-//   res.status(err.statusCode || 500).json({
-//     success: false,
-//     message: err.message || 'Internal Server Error',
-//   });
-// }
-
-// Auth middleware to protect routes (verify JWT)
+// Auth middleware to protect routes (verify JWT from cookie)
 function protectRoute(req, res, next) {
-  const token = req.headers.authorization?.split(" ")[1];
+  const token = req.cookies.token;  // ✅ Read token from cookie
 
-  if (!token) {
-    return res.status(401).json({ message: 'No token provided' });
-  }
-
-  
+  // if (!token) {
+  //   return res.status(401).json({ message: 'No token provided' });
+  // }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // now you can access req.user in your routes
+    req.user = decoded; // decoded = { id, isAdmin, iat, exp }
     next();
   } catch (err) {
     return res.status(401).json({ message: 'Invalid token' });
@@ -37,9 +24,19 @@ function isAdmin(req, res, next) {
   }
   next();
 }
+const errorHandler = (err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    message: err.message || 'Internal Server Error',
+  });
+};
 
 module.exports = {
-  //errorHandler,
+  errorHandler,
   protectRoute,
-  isAdmin,
+  isAdmin
 };
+
+
+
+

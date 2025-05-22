@@ -1,0 +1,19 @@
+{{#extend "layout"}}
+  {{#content "body"}}
+    <h1>Your Orders</h1>
+    {{#if orders.length}}
+      <ul>
+        {{#each orders}}
+          <li>
+            <p>Order ID: {{this._id}}</p>
+            <p>Status: {{this.status}}</p>
+            <p>Total: ${{this.total}}</p>
+            <a href="/orders/{{this._id}}">View</a>
+          </li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <p>No orders found.</p>
+    {{/if}}
+  {{/content}}
+{{/extend}}
